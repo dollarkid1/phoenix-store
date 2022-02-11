@@ -15,10 +15,14 @@ public class CloudinaryServiceImpl implements CloudService {
     @Autowired
     Cloudinary cloudinary;
 
-    @Override
-    public Map<?, ?> upload(File file, Map<?, ?> params) throws IOException {
+    public CloudinaryServiceImpl(Cloudinary cloudinary) {
+        this.cloudinary = cloudinary;
+    }
 
-      return   cloudinary.uploader().upload(file,params);
+    @Override
+    public Map<?, ?> upload(byte[] bytes, Map<?, ?> params) throws IOException {
+
+      return   cloudinary.uploader().upload(bytes,params);
 
     }
 }

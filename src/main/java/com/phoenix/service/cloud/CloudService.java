@@ -6,5 +6,5 @@ import java.util.Map;
 
 public interface CloudService {
 
-    Map<?,?> upload(File file, Map<?,?> params) throws IOException;
+    Map<?,?> upload(byte [] file, Map<?,?> params) throws IOException;
 }

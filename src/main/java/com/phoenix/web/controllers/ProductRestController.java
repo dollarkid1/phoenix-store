@@ -28,16 +28,18 @@ public class ProductRestController {
     public ResponseEntity<?> findAllProducts(){
         List<Product> productList = productService.getAllProducts();
         return ResponseEntity.ok().body(productList);
+
     }
 
-    @PostMapping()
-    public ResponseEntity<?> createProduct(@RequestBody ProductDto productDto){
+    @PostMapping(consumes = {"multipart/form-data"})
+    public ResponseEntity<?> createProduct(@ModelAttribute ProductDto productDto){
+
 
         try{
             Product savedProduct = productService.createProduct(productDto);
             return ResponseEntity.ok().body(savedProduct);
         } catch (BusinessLogicException | IllegalArgumentException e) {
-           return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
