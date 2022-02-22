@@ -117,7 +117,7 @@ public class ProductServiceImpl implements ProductService{
 
     }
 
-    private Product applyPatchToProduct(JsonPatch productPatch, Product targetProduct) throws JsonPatchException, JsonProcessingException {
+private Product                                                                                                                                                                                                             applyPatchToProduct(JsonPatch productPatch, Product targetProduct) throws JsonPatchException, JsonProcessingException {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode patched = productPatch.

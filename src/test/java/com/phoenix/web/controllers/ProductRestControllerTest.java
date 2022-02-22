@@ -1,19 +1,27 @@
 package com.phoenix.web.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.phoenix.data.dto.ProductDto;
 import com.phoenix.data.models.Product;
 import com.phoenix.data.repository.ProductRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -24,6 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Sql(scripts={"/db/insert.sql"})
 class ProductRestControllerTest {
+
+//    @Autowired
+//    org.springframework.ui.Model Model;
 
     @Autowired
     MockMvc mockMvc;
@@ -50,19 +61,16 @@ class ProductRestControllerTest {
     @Test
     @DisplayName("Create a product api test")
     void createProductTest() throws Exception {
-        Product product = new Product();
-        product.setName("Bamboo Chair");
-        product.setDescription("World class bamboo");
-        product.setPrice(5540);
-        product.setQuantity(9);
 
-        String requestBody = objectMapper.writeValueAsString(product);
+        MockHttpServletRequestBuilder request =
+                MockMvcRequestBuilders.post("/api/product")
+                        .param("name","Bambo chair")
+                .param("description", "World class bambo")
+                .param("price", "5540")
+                .param("quantity", "9");
 
-        mockMvc.perform(post("/api/product")
-                .contentType("application/json")
-                .content(requestBody))
-                .andExpect(status().is(200))
-                .andDo(print());
+
+        mockMvc.perform(request.contentType("multipart/form-data")).andExpect(status().is(200)).andDo(print());
     }
 
 
